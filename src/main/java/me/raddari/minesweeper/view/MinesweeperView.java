@@ -24,8 +24,8 @@ public final class MinesweeperView implements MouseInputListener, MouseWheelList
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
 
-        var rows = gameController.mineRows();
-        var cols = gameController.mineColumns();
+        var rows = gameController.fieldRows();
+        var cols = gameController.fieldColumns();
         minefieldPanel = new MinefieldPanel(rows, cols);
         minefieldPanel.setLayout(new GridLayout(rows, cols));
         frame.add(minefieldPanel);

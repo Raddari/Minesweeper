@@ -6,7 +6,7 @@ public interface GameController {
     void revealTile(int row, int col);
     void flagTile(int row, int col);
     void generateBombs(int originRow, int originCol);
-    int mineRows();
-    int mineColumns();
+    int fieldRows();
+    int fieldColumns();
 
 }
