@@ -2,7 +2,7 @@ package me.raddari.minesweeper.client;
 
 import me.raddari.minesweeper.controller.GameController;
 import me.raddari.minesweeper.controller.StandardGame;
-import me.raddari.minesweeper.view.MinesweeperView;
+import me.raddari.minesweeper.client.view.MinesweeperView;
 
 import javax.swing.SwingUtilities;
 

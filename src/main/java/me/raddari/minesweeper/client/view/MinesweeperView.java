@@ -1,4 +1,4 @@
-package me.raddari.minesweeper.view;
+package me.raddari.minesweeper.client.view;
 
 import me.raddari.minesweeper.controller.GameController;
 import org.jetbrains.annotations.NotNull;

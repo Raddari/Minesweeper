@@ -1,4 +1,4 @@
-package me.raddari.minesweeper.view;
+package me.raddari.minesweeper.client.view;
 
 import me.raddari.minesweeper.util.Numbers;
 import org.jetbrains.annotations.NotNull;
