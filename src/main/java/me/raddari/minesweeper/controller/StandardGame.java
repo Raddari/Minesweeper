@@ -9,18 +9,20 @@ public final class StandardGame implements GameController {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final Tile[][] minefield;
-    private final int mineRows;
-    private final int mineCols;
+    private final int fieldRows;
+    private final int fieldCols;
+    private final int maxBombs;
 
-    public StandardGame(int rows, int cols) {
+    public StandardGame(int rows, int cols, int maxBombs) {
         minefield = new Tile[rows][cols];
-        mineRows = rows;
-        mineCols = cols;
+        fieldRows = rows;
+        fieldCols = cols;
+        this.maxBombs = maxBombs;
     }
 
     private void boundCheck(int row, int col) {
-        Numbers.rangeCheck(row, 0, mineRows - 1);
-        Numbers.rangeCheck(col, 0, mineCols - 1);
+        Numbers.rangeCheck(row, 0, fieldRows - 1);
+        Numbers.rangeCheck(col, 0, fieldCols - 1);
     }
 
     private Tile tileAt(int row, int col) {
@@ -50,13 +52,13 @@ public final class StandardGame implements GameController {
     }
 
     @Override
-    public int mineRows() {
-        return mineRows;
+    public int fieldRows() {
+        return fieldRows;
     }
 
     @Override
-    public int mineColumns() {
-        return mineCols;
+    public int fieldColumns() {
+        return fieldCols;
     }
 
 }
