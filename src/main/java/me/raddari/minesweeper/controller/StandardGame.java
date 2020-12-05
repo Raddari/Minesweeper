@@ -37,13 +37,9 @@ public final class StandardGame implements GameController {
         }
     }
 
-    private void boundCheck(int row, int col) {
+    public @NotNull Tile tileAt(int row, int col) {
         Numbers.rangeCheck(row, 0, fieldRows - 1);
         Numbers.rangeCheck(col, 0, fieldCols - 1);
-    }
-
-    private Tile tileAt(int row, int col) {
-        boundCheck(row, col);
         return minefield[row][col];
     }
 

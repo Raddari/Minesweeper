@@ -6,7 +6,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 
 public final class MinesweeperView {
 
@@ -25,7 +24,6 @@ public final class MinesweeperView {
         var rows = controller.fieldRows();
         var cols = controller.fieldColumns();
         minefieldPanel = new MinefieldPanel(controller);
-        minefieldPanel.setLayout(new GridLayout(rows, cols));
         frame.add(minefieldPanel);
 
         frame.setVisible(true);
