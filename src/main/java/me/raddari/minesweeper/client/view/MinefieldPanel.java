@@ -10,7 +10,7 @@ import java.awt.Graphics2D;
 
 public final class MinefieldPanel extends JPanel {
 
-    private final GameController controller;
+    private final transient GameController controller;
     private final int fieldRows;
     private final int fieldCols;
 
