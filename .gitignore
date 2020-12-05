@@ -8,6 +8,9 @@ hs_err_pid*
 ## Generated
 /run/
 
+## log4j2
+log4j2.xml
+
 ## Robovm
 /ios/robovm-build/
 
@@ -98,12 +101,6 @@ nb-configuration.xml
 /local.properties
 .gradle/
 gradle-app.setting
-/build/
-/android/build/
-/core/build/
-/desktop/build/
-/html/build/
-/ios/build/
 
 ## OS Specific
 .DS_Store
