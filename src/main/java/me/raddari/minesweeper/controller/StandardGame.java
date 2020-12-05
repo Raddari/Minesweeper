@@ -9,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.Point;
 import java.util.Collections;
 import java.util.LinkedList;
-import java.util.function.Consumer;
 
 public final class StandardGame implements GameController {
 
@@ -41,22 +40,6 @@ public final class StandardGame implements GameController {
         Numbers.rangeCheck(row, 0, fieldRows - 1);
         Numbers.rangeCheck(col, 0, fieldCols - 1);
         return minefield[row][col];
-    }
-
-    private void forEachNeighbour(int originRow, int originCol, @NotNull Consumer<Tile> action) {
-        var rowMin = Math.max(0, originRow - 1);
-        var rowMax = Math.min(fieldRows - 1, originRow + 1);
-        var colMin = Math.max(0, originCol - 1);
-        var colMax = Math.min(fieldCols - 1, originCol + 1);
-
-        for (var row = rowMin; row <= rowMax; row++) {
-            for (var col = colMin; col <= colMax; col++) {
-                if (!(row == originRow && col == originCol)) {
-                    var tile = tileAt(row, col);
-                    action.accept(tile);
-                }
-            }
-        }
     }
 
     @Override
