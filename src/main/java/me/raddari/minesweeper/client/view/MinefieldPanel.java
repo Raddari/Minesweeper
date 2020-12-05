@@ -1,5 +1,6 @@
 package me.raddari.minesweeper.client.view;
 
+import me.raddari.minesweeper.controller.GameController;
 import me.raddari.minesweeper.util.Numbers;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,14 +11,16 @@ import java.util.Map;
 
 public final class MinefieldPanel extends JPanel {
 
+    private final GameController controller;
     private final int fieldRows;
     private final int fieldCols;
     private final JButton[][] fieldTiles;
     private final Map<Integer, JButton> buttonMap;
 
-    public MinefieldPanel(int fieldRows, int fieldCols) {
-        this.fieldRows = Numbers.rangeCheck(fieldRows, 1, Integer.MAX_VALUE);
-        this.fieldCols = Numbers.rangeCheck(fieldCols, 1, Integer.MAX_VALUE);
+    public MinefieldPanel(@NotNull GameController controller) {
+        this.controller = controller;
+        fieldRows = controller.fieldRows();
+        fieldCols = controller.fieldColumns();
         fieldTiles = new JButton[fieldRows][fieldCols];
         buttonMap = new LinkedHashMap<>();
 

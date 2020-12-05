@@ -24,7 +24,7 @@ public final class MinesweeperView {
 
         var rows = controller.fieldRows();
         var cols = controller.fieldColumns();
-        minefieldPanel = new MinefieldPanel(rows, cols);
+        minefieldPanel = new MinefieldPanel(controller);
         minefieldPanel.setLayout(new GridLayout(rows, cols));
         frame.add(minefieldPanel);
 
