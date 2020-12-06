@@ -6,8 +6,10 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public final class MinesweeperView {
+public final class MinesweeperView implements KeyListener {
 
     private final GameController controller;
     private final JFrame frame;
@@ -27,6 +29,34 @@ public final class MinesweeperView {
         frame.add(minefieldPanel);
 
         frame.setVisible(true);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        //
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyLocation()) {
+            case KeyEvent.VK_W -> {
+
+            }
+            case KeyEvent.VK_A -> {
+
+            }
+            case KeyEvent.VK_S -> {
+
+            }
+            case KeyEvent.VK_D -> {
+
+            }
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        //
     }
 
 }
