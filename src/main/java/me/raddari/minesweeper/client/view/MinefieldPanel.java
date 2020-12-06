@@ -10,6 +10,8 @@ import java.awt.Graphics2D;
 
 public final class MinefieldPanel extends JPanel {
 
+    private static final int DEFAULT_ROWS = 9;
+    private static final int DEFAULT_COLS = 16;
     private final transient GameController controller;
     private final int fieldRows;
     private final int fieldCols;
@@ -29,12 +31,14 @@ public final class MinefieldPanel extends JPanel {
 
         for (var m = 0; m < fieldRows; m++) {
             for (var n = 0; n < fieldCols; n++) {
+                final var scaledWidth = (float) getWidth() / DEFAULT_COLS;
+                final var scaledHeight = (float) getHeight() / DEFAULT_ROWS;
                 if (controller.tileAt(m, n).isBomb()) {
                     g2d.setColor(Color.RED);
-                    g2d.fillRect(n * 32, m * 32, 32, 32);
+                    g2d.fillRect((int) (scaledWidth * n), (int) (scaledHeight * m), (int) scaledWidth, (int) scaledHeight);
                 }
                 g2d.setColor(Color.WHITE);
-                g2d.drawRect(n * 32, m * 32, 32, 32);
+                g2d.drawRect((int) (scaledWidth * n), (int) (scaledHeight * m), (int) scaledWidth, (int) scaledHeight);
             }
         }
     }
