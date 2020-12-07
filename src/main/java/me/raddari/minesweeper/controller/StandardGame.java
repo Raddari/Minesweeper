@@ -21,6 +21,7 @@ public final class StandardGame implements GameController {
     private final int fieldRows;
     private final int fieldCols;
     private final int maxBombs;
+    private boolean hasBombs;
 
     public StandardGame(int rows, int cols, int maxBombs) {
         fieldRows = Numbers.rangeCheck(rows, MIN_ROWS, MAX_ROWS);
@@ -28,6 +29,7 @@ public final class StandardGame implements GameController {
         minefield = new Tile[rows][cols];
         // Need to allow a 3x3 space around the clicked tile which is bomb free
         this.maxBombs = Numbers.rangeCheck(maxBombs, 1, rows * cols - 9);
+        hasBombs = false;
 
         for (var row = 0; row < rows; row++) {
             for (var col = 0; col < cols; col++) {
@@ -60,6 +62,9 @@ public final class StandardGame implements GameController {
 
     @Override
     public void generateBombs(int originRow, int originCol) {
+        if (hasBombs) {
+            throw new IllegalStateException("Minefield already has bombs");
+        }
         var pointList = new LinkedList<Point>();
         for (var m = 0; m < fieldRows; m++) {
             for (var n = 0; n < fieldCols; n++) {
@@ -73,13 +78,14 @@ public final class StandardGame implements GameController {
         while (remaining > 0 && !pointList.isEmpty()) {
             var bombPoint = pointList.pop();
             // Anything with a squared distance > 2 is outside the 3x3 grid centered on this tile
-            if (bombPoint.distanceSq(origin) > 2) {
+            if (bombPoint.distanceSq(origin) > 2.0) {
                 tileAt(bombPoint.y, bombPoint.x).makeBomb();
                 --remaining;
                 LOGGER.debug("Generated bomb at ({},{}), remaining: {}", bombPoint.x, bombPoint.y, remaining);
                 forEachNeighbour(bombPoint.y, bombPoint.x, Tile::incrementValue);
             }
         }
+        hasBombs = true;
     }
 
     @Override
