@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -26,9 +27,13 @@ public final class TextureManager implements ResourceManager<Image>  {
 
     @Override
     public @NotNull Image get(@NotNull String path) {
-        if (textureMap.containsKey(path)) {
-            return textureMap.get(path);
+        if (!textureMap.containsKey(path)) {
+            load(path);
         }
+        return textureMap.get(path);
+    }
+
+    public void load(@NotNull String path) {
         var imgDir = TEXTURES_DIR + path.replace('.', '/') + ".png";
         LOGGER.debug("Loading texture {}", imgDir);
         var imgStream = getClass().getClassLoader().getResourceAsStream(imgDir);
@@ -39,10 +44,15 @@ public final class TextureManager implements ResourceManager<Image>  {
         try {
             var img = ImageIO.read(imgStream);
             textureMap.put(path, img);
-            return img;
         } catch (IOException e) {
             LOGGER.error("Texture not found", e);
             throw new IllegalArgumentException(e);
+        }
+    }
+
+    public void loadAll(@NotNull Collection<String> paths) {
+        for (var path : paths) {
+            load(path);
         }
     }
 
