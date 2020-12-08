@@ -9,6 +9,10 @@ public interface GameController {
 
     void revealTile(int row, int col);
 
+    boolean isRevealed(int row, int col);
+
+    boolean isRevealed(@NotNull Tile tile);
+
     void flagTile(int row, int col);
 
     void generateBombs(int originRow, int originCol);
