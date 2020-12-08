@@ -51,6 +51,15 @@ public final class StandardGame implements GameController {
     @Override
     public void revealTile(int row, int col) {
         var tile = tileAt(row, col);
+        revealedTiles.add(tile);
+
+        if (tile.getValue() == 0) {
+            forEachNeighbour(row, col, t -> {
+                if (!isRevealed(t)) {
+                    revealTile(row, col);
+                }
+            });
+        }
     }
 
     @Override
