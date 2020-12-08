@@ -7,8 +7,6 @@ import java.util.function.Consumer;
 
 public interface GameController {
 
-    void keyPressed(int keycode, int scancode, int modifiers);
-
     void revealTile(int row, int col);
 
     void flagTile(int row, int col);

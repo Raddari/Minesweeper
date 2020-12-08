@@ -45,11 +45,6 @@ public final class StandardGame implements GameController {
     }
 
     @Override
-    public void keyPressed(int keycode, int scancode, int modifiers) {
-
-    }
-
-    @Override
     public void revealTile(int row, int col) {
         var tile = tileAt(row, col);
     }
