@@ -29,7 +29,7 @@ public final class MinesweeperView implements KeyListener {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
 
-        minefieldPanel = new MinefieldPanel(controller);
+        minefieldPanel = new MinefieldPanel(controller, textureManager);
         frame.add(minefieldPanel);
 
         frame.setVisible(true);
@@ -65,9 +65,10 @@ public final class MinesweeperView implements KeyListener {
 
     private void preCacheTextures() {
         var textures = new ArrayList<String>();
-        Collections.addAll(textures, "bad_bomb", "bad_flag", "bomb", "flag", "revealed", "tile");
+        Collections.addAll(textures,
+                "tile.bad_bomb", "tile.bad_flag", "tile.bomb", "tile.flag", "tile.revealed", "tile.unrevealed");
         for (var i = 1; i <= 8; i++) {
-            textures.add("n" + i);
+            textures.add("tile.n" + i);
         }
         textureManager.loadAll(textures);
     }
