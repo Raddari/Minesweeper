@@ -18,7 +18,6 @@ public final class StandardGame implements GameController {
     private static final int MIN_COLS = MIN_ROWS;
     private static final int MAX_COLS = MAX_ROWS;
     private final Tile[][] minefield;
-    private final boolean[][] revealed;
     private final int fieldRows;
     private final int fieldCols;
     private final int maxBombs;
@@ -28,7 +27,6 @@ public final class StandardGame implements GameController {
         fieldRows = Numbers.rangeCheck(rows, MIN_ROWS, MAX_ROWS);
         fieldCols = Numbers.rangeCheck(cols, MIN_COLS, MAX_COLS);
         minefield = new Tile[rows][cols];
-        revealed = new boolean[rows][cols];
         // Need to allow a 3x3 space around the clicked tile which is bomb free
         this.maxBombs = Numbers.rangeCheck(maxBombs, 1, rows * cols - 9);
         hasBombs = false;
@@ -49,11 +47,6 @@ public final class StandardGame implements GameController {
     @Override
     public void revealTile(int row, int col) {
         var tile = tileAt(row, col);
-    }
-
-    @Override
-    public boolean isRevealed(int row, int col) {
-        return revealed[row][col];
     }
 
     @Override
