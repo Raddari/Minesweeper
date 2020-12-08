@@ -4,6 +4,6 @@ import org.jetbrains.annotations.NotNull;
 
 public interface ResourceManager<T> {
 
-    @NotNull T load(@NotNull String path);
+    @NotNull T get(@NotNull String path);
 
 }

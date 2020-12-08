@@ -25,7 +25,7 @@ public final class TextureManager implements ResourceManager<Image>  {
     }
 
     @Override
-    public @NotNull Image load(@NotNull String path) {
+    public @NotNull Image get(@NotNull String path) {
         if (textureMap.containsKey(path)) {
             return textureMap.get(path);
         }
