@@ -29,7 +29,8 @@ public final class TextureManager implements ResourceManager<Image>  {
         if (textureMap.containsKey(path)) {
             return textureMap.get(path);
         }
-        var imgDir = TEXTURES_DIR + path.replace('.', '/');
+        var imgDir = TEXTURES_DIR + path.replace('.', '/') + ".png";
+        LOGGER.debug("Loading texture {}", imgDir);
         var imgStream = getClass().getClassLoader().getResourceAsStream(imgDir);
         if (imgStream == null) {
             throw new IllegalArgumentException("No such texture: " + imgDir);
