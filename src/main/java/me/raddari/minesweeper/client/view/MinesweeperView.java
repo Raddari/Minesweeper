@@ -29,8 +29,6 @@ public final class MinesweeperView implements KeyListener {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
 
-        var rows = controller.fieldRows();
-        var cols = controller.fieldColumns();
         minefieldPanel = new MinefieldPanel(controller);
         frame.add(minefieldPanel);
 
