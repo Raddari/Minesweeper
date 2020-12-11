@@ -2,6 +2,8 @@ package me.raddari.minesweeper.client.view;
 
 import me.raddari.minesweeper.controller.GameController;
 import me.raddari.minesweeper.util.TextureManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.JFrame;
@@ -14,6 +16,7 @@ import java.util.Collections;
 
 public final class MinesweeperView implements MouseListener {
 
+    private static final Logger LOGGER = LogManager.getLogger();
     private final TextureManager textureManager;
     private final MinefieldPanel minefieldPanel;
 
@@ -38,6 +41,7 @@ public final class MinesweeperView implements MouseListener {
         var mX = e.getX();
         var mY = e.getY();
 
+        LOGGER.debug("CLICK: ({},{})", mX, mY);
         minefieldPanel.mouseClicked(mX, mY, e.getModifiersEx());
     }
 
