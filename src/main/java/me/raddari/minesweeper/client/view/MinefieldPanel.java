@@ -12,10 +12,12 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class MinefieldPanel extends JPanel {
+public final class MinefieldPanel extends JPanel implements MouseListener {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int DEFAULT_ROWS = 9;
@@ -32,6 +34,46 @@ public final class MinefieldPanel extends JPanel {
         this.textureManager = textureManager;
         fieldRows = controller.fieldRows();
         fieldCols = controller.fieldColumns();
+        addMouseListener(this);
+    }
+
+    private boolean withinField(int x, int y) {
+        return 0 <= x && x < fieldCols * TILE_WIDTH && 0 <= y && y < fieldRows * TILE_HEIGHT;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        final var x = e.getX();
+        final var y = e.getY();
+        final var modifiers = e.getModifiersEx();
+
+        if (!withinField(x, y)) {
+            return;
+        }
+
+        var tileRow = y / fieldRows;
+        var tileCol = x / fieldCols;
+        LOGGER.debug("TILE: ({},{})", tileCol, tileRow);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        //
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        //
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        //
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        //
     }
 
     @Override

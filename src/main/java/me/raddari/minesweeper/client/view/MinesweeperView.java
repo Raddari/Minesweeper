@@ -9,12 +9,10 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public final class MinesweeperView implements MouseListener {
+public final class MinesweeperView {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private final TextureManager textureManager;
@@ -27,42 +25,12 @@ public final class MinesweeperView implements MouseListener {
         var frame = new JFrame("Minesweeper");
         frame.setPreferredSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
 
         minefieldPanel = new MinefieldPanel(controller, textureManager);
         frame.add(minefieldPanel);
+        frame.pack();
 
-        frame.addMouseListener(this);
         frame.setVisible(true);
-    }
-
-    @Override
-    public void mouseClicked(MouseEvent e) {
-        var mX = e.getX();
-        var mY = e.getY();
-
-        LOGGER.debug("CLICK: ({},{})", mX, mY);
-        minefieldPanel.mouseClicked(mX, mY, e.getModifiersEx());
-    }
-
-    @Override
-    public void mousePressed(MouseEvent e) {
-        // Unused
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        // Unused
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent e) {
-        // Unused
-    }
-
-    @Override
-    public void mouseExited(MouseEvent e) {
-        // Unused
     }
 
     private void preCacheTextures() {
