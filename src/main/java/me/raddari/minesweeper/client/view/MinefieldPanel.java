@@ -12,7 +12,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.util.function.Supplier;
+import java.util.function.Consumer;
 
 public final class MinefieldPanel extends JPanel {
 
@@ -55,21 +55,27 @@ public final class MinefieldPanel extends JPanel {
     }
 
     private void drawTile(Graphics2D g2d, Tile tile, int row, int col, int width, int height) {
-        g2d.drawImage(textureManager.get("tile.revealed"), col * width, row * height, width, height, this);
-        Supplier<Image> texture = () -> {
-            if (tile.isBomb()) {
-                return textureManager.get("tile.bomb");
-            }
-            if (tile.isFlagged()) {
-                return textureManager.get("tile.flag");
-            }
-            if (tile.getValue() == 0) {
-                return textureManager.get("tile.revealed");
-            }
-            return textureManager.get("tile.n" + tile.getValue());
-        };
+        var x = col * width;
+        var y = row * height;
+        Consumer<Image> quickDraw = t -> g2d.drawImage(t, x, y, width, height, this);
 
-        g2d.drawImage(texture.get(), col * width, row * height, width, height, this);
+        if (!controller.isRevealed(tile)) {
+            quickDraw.accept(textureManager.get("tile.unrevealed"));
+            if (tile.isFlagged()) {
+                quickDraw.accept(textureManager.get("tile.flag"));
+            }
+
+        } else {
+            quickDraw.accept(textureManager.get("tile.revealed"));
+
+            if (!tile.isBomb()) {
+                if (tile.getValue() > 0) {
+                    quickDraw.accept(textureManager.get(String.format("tile.n%s", tile.getValue())));
+                }
+            } else {
+                quickDraw.accept(textureManager.get("tile.bomb"));
+            }
+        }
     }
 
 }
