@@ -7,24 +7,21 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import java.awt.Dimension;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public final class MinesweeperView implements KeyListener {
+public final class MinesweeperView implements MouseListener {
 
-    private final GameController controller;
     private final TextureManager textureManager;
-    private final JFrame frame;
-    private MinefieldPanel minefieldPanel;
+    private final MinefieldPanel minefieldPanel;
 
     public MinesweeperView(@NotNull GameController controller, int width, int height) {
-        this.controller = controller;
         textureManager = TextureManager.create();
         preCacheTextures();
 
-        frame = new JFrame("Minesweeper");
+        var frame = new JFrame("Minesweeper");
         frame.setPreferredSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
@@ -32,35 +29,36 @@ public final class MinesweeperView implements KeyListener {
         minefieldPanel = new MinefieldPanel(controller, textureManager);
         frame.add(minefieldPanel);
 
+        frame.addMouseListener(this);
         frame.setVisible(true);
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        //
+    public void mouseClicked(MouseEvent e) {
+        var mX = e.getX();
+        var mY = e.getY();
+
+        minefieldPanel.mouseClicked(mX, mY, e.getModifiersEx());
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyLocation()) {
-            case KeyEvent.VK_W -> {
-
-            }
-            case KeyEvent.VK_A -> {
-
-            }
-            case KeyEvent.VK_S -> {
-
-            }
-            case KeyEvent.VK_D -> {
-
-            }
-        }
+    public void mousePressed(MouseEvent e) {
+        // Unused
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        //
+    public void mouseReleased(MouseEvent e) {
+        // Unused
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // Unused
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // Unused
     }
 
     private void preCacheTextures() {
