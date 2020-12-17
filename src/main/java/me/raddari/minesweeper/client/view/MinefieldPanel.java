@@ -51,9 +51,10 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
             return;
         }
 
-        var tileRow = y / fieldRows;
-        var tileCol = x / fieldCols;
-        LOGGER.debug("TILE: ({},{})", tileCol, tileRow);
+        var tileRow = y / TILE_HEIGHT;
+        var tileCol = x / TILE_WIDTH;
+        LOGGER.debug("TILE: (R{},C{}) RAW: ({},{})", tileRow, tileCol, x, y);
+        controller.revealTile(tileRow, tileCol);
     }
 
     @Override
