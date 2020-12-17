@@ -66,6 +66,9 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
         if (button == MouseEvent.BUTTON1) {
             controller.revealTile(row, col);
         }
+        if (button == MouseEvent.BUTTON3) {
+            controller.flagTile(row, col);
+        }
         repaint();
     }
 

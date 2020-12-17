@@ -52,7 +52,7 @@ public final class StandardGame implements GameController {
     @Override
     public void revealTile(int row, int col) {
         var tile = tileAt(row, col);
-        if (isRevealed(tile)) {
+        if (isRevealed(tile) || tile.isFlagged()) {
             return;
         }
         revealedTiles.add(tile);
