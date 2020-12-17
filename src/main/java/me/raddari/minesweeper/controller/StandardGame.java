@@ -7,10 +7,7 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.Point;
-import java.util.Collections;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.util.*;
 
 public final class StandardGame implements GameController {
 
@@ -21,6 +18,7 @@ public final class StandardGame implements GameController {
     private static final int MAX_COLS = MAX_ROWS;
     private final Tile[][] minefield;
     private final Set<Tile> revealedTiles;
+    private final Map<Tile, Integer> positionLookup;
     private final int fieldRows;
     private final int fieldCols;
     private final int maxBombs;
@@ -30,14 +28,17 @@ public final class StandardGame implements GameController {
         fieldRows = Numbers.rangeCheck(rows, MIN_ROWS, MAX_ROWS);
         fieldCols = Numbers.rangeCheck(cols, MIN_COLS, MAX_COLS);
         minefield = new Tile[rows][cols];
-        revealedTiles = new LinkedHashSet<>();
+        revealedTiles = Collections.newSetFromMap(new IdentityHashMap<>(rows * cols));
+        positionLookup = new LinkedHashMap<>();
         // Need to allow a 3x3 space around the clicked tile which is bomb free
         this.maxBombs = Numbers.rangeCheck(maxBombs, 1, rows * cols - 9);
         hasBombs = false;
 
         for (var row = 0; row < rows; row++) {
             for (var col = 0; col < cols; col++) {
-                minefield[row][col] = new Tile();
+                var tile = new Tile();
+                minefield[row][col] = tile;
+                positionLookup.put(tile, row * fieldCols + col);
             }
         }
     }
@@ -51,15 +52,21 @@ public final class StandardGame implements GameController {
     @Override
     public void revealTile(int row, int col) {
         var tile = tileAt(row, col);
+        if (isRevealed(tile)) {
+            return;
+        }
         revealedTiles.add(tile);
 
-        if (tile.getValue() == 0) {
-            forEachNeighbour(row, col, t -> {
-                if (!isRevealed(t)) {
-                    revealTile(row, col);
-                }
-            });
+        if (tile.getValue() == 0 && !tile.isBomb()) {
+            forEachNeighbour(row, col, this::revealTile);
         }
+    }
+
+    private void revealTile(Tile tile) {
+        var tilePos = positionLookup.get(tile);
+        var tileRow = tilePos / fieldCols;
+        var tileCol = tilePos % fieldCols;
+        revealTile(tileRow, tileCol);
     }
 
     @Override

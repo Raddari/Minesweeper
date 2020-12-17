@@ -20,8 +20,6 @@ import java.util.List;
 public final class MinefieldPanel extends JPanel implements MouseListener {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final int DEFAULT_ROWS = 9;
-    private static final int DEFAULT_COLS = 16;
     private static final int TILE_WIDTH = 32;
     private static final int TILE_HEIGHT = TILE_WIDTH;
     private final transient GameController controller;
@@ -43,18 +41,7 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        final var x = e.getX();
-        final var y = e.getY();
-        final var modifiers = e.getModifiersEx();
-
-        if (!withinField(x, y)) {
-            return;
-        }
-
-        var tileRow = y / TILE_HEIGHT;
-        var tileCol = x / TILE_WIDTH;
-        LOGGER.debug("TILE: (R{},C{}) RAW: ({},{})", tileRow, tileCol, x, y);
-        controller.revealTile(tileRow, tileCol);
+        //
     }
 
     @Override
@@ -64,7 +51,22 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        //
+        final var x = e.getX();
+        final var y = e.getY();
+        final var button = e.getButton();
+
+        if (!withinField(x, y)) {
+            return;
+        }
+
+        var row = y / TILE_HEIGHT;
+        var col = x / TILE_WIDTH;
+        LOGGER.debug("TILE: (R{},C{}) RAW: ({},{})", row, col, x, y);
+
+        if (button == MouseEvent.BUTTON1) {
+            controller.revealTile(row, col);
+        }
+        repaint();
     }
 
     @Override
