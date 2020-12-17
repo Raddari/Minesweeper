@@ -64,6 +64,7 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
         LOGGER.debug("TILE: (R{},C{}) RAW: ({},{})", row, col, x, y);
 
         if (button == MouseEvent.BUTTON1) {
+            controller.generateBombs(row, col);
             controller.revealTile(row, col);
         }
         if (button == MouseEvent.BUTTON3) {
