@@ -89,9 +89,7 @@ public final class StandardGame implements GameController {
     @Override
     public void generateBombs(int originRow, int originCol) {
         if (hasBombs) {
-            // todo
-            //throw new IllegalStateException("Minefield already has bombs");
-            return;
+            throw new IllegalStateException("Minefield already has bombs");
         }
         var pointList = new LinkedList<Point>();
         for (var m = 0; m < fieldRows; m++) {
@@ -114,6 +112,11 @@ public final class StandardGame implements GameController {
             }
         }
         hasBombs = true;
+    }
+
+    @Override
+    public boolean hasGeneratedBombs() {
+        return hasBombs;
     }
 
     @Override

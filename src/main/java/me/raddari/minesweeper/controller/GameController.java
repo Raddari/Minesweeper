@@ -17,6 +17,8 @@ public interface GameController {
 
     void generateBombs(int originRow, int originCol);
 
+    boolean hasGeneratedBombs();
+
     int fieldRows();
 
     int fieldColumns();
