@@ -1,4 +1,4 @@
-package me.raddari.minesweeper.controller;
+package me.raddari.minesweeper.game;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 @Testable
-class StandardGameTest {
+class MinesweeperGameTest {
 
-    StandardGame standardGame;
+    MinesweeperGame minesweeper;
 
     @BeforeEach
     private void resetGame() {
-        standardGame = new StandardGame(5, 5, 10);
+        minesweeper = new MinesweeperGame(5, 5, 10);
     }
 
     @ParameterizedTest
@@ -27,31 +27,31 @@ class StandardGameTest {
     void generateBombsHasSafezone(int row, int col) {
         final var dim = 10;
         final var bombs = 91;
-        standardGame = new StandardGame(dim, dim, bombs);
-        standardGame.generateBombs(row, col);
-        standardGame.forEachNeighbour(row, col, tile -> assertFalse(tile.isBomb()));
+        minesweeper = new MinesweeperGame(dim, dim, bombs);
+        minesweeper.generateBombs(row, col);
+        minesweeper.forEachNeighbour(row, col, tile -> assertFalse(tile.isBomb()));
     }
 
     @Test
     void tooManyBombs() {
         var exception = assertThrows(IllegalArgumentException.class,
-                () -> new StandardGame(4, 4, 8));
+                () -> new MinesweeperGame(4, 4, 8));
         assertEquals("Integer out of range", exception.getMessage());
     }
 
     @Test
     void flagTile() {
-        standardGame.flagTile(0, 0);
-        assertTrue(standardGame.tileAt(0, 0).isFlagged());
-        standardGame.flagTile(0, 0);
-        assertFalse(standardGame.tileAt(0, 0).isFlagged());
+        minesweeper.flagTile(0, 0);
+        assertTrue(minesweeper.tileAt(0, 0).isFlagged());
+        minesweeper.flagTile(0, 0);
+        assertFalse(minesweeper.tileAt(0, 0).isFlagged());
     }
 
     @Test
     void incrementTile() {
-        assertEquals(0, standardGame.tileAt(0, 0).getValue());
-        standardGame.tileAt(0, 0).incrementValue();
-        assertEquals(1, standardGame.tileAt(0, 0).getValue());
+        assertEquals(0, minesweeper.tileAt(0, 0).getValue());
+        minesweeper.tileAt(0, 0).incrementValue();
+        assertEquals(1, minesweeper.tileAt(0, 0).getValue());
     }
 
     private static Stream<Arguments> coordsProvider() {

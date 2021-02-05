@@ -1,4 +1,4 @@
-package me.raddari.minesweeper.controller;
+package me.raddari.minesweeper.game;
 
 import me.raddari.minesweeper.tile.Tile;
 import me.raddari.minesweeper.util.Numbers;
@@ -8,8 +8,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.Point;
 import java.util.*;
+import java.util.function.Consumer;
 
-public final class StandardGame implements GameController {
+public final class MinesweeperGame implements Minesweeper {
 
     private static final Logger LOGGER = LogManager.getLogger();
     private static final int MIN_ROWS = 4;
@@ -24,7 +25,7 @@ public final class StandardGame implements GameController {
     private final int maxBombs;
     private boolean hasBombs;
 
-    public StandardGame(int rows, int cols, int maxBombs) {
+    public MinesweeperGame(int rows, int cols, int maxBombs) {
         fieldRows = Numbers.rangeCheck(rows, MIN_ROWS, MAX_ROWS);
         fieldCols = Numbers.rangeCheck(cols, MIN_COLS, MAX_COLS);
         minefield = new Tile[rows][cols];
@@ -112,6 +113,22 @@ public final class StandardGame implements GameController {
             }
         }
         hasBombs = true;
+    }
+
+    public void forEachNeighbour(int originRow, int originCol, @NotNull Consumer<Tile> action) {
+        var rowMin = Math.max(0, originRow - 1);
+        var rowMax = Math.min(fieldRows - 1, originRow + 1);
+        var colMin = Math.max(0, originCol - 1);
+        var colMax = Math.min(fieldCols - 1, originCol + 1);
+
+        for (var row = rowMin; row <= rowMax; row++) {
+            for (var col = colMin; col <= colMax; col++) {
+                if (!(row == originRow && col == originCol)) {
+                    var tile = tileAt(row, col);
+                    action.accept(tile);
+                }
+            }
+        }
     }
 
     @Override

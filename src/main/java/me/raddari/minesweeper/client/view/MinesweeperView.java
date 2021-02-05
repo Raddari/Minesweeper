@@ -1,6 +1,7 @@
 package me.raddari.minesweeper.client.view;
 
-import me.raddari.minesweeper.controller.GameController;
+import me.raddari.minesweeper.controller.MinesweeperController;
+import me.raddari.minesweeper.game.Minesweeper;
 import me.raddari.minesweeper.util.TextureManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,7 +19,7 @@ public final class MinesweeperView {
     private final TextureManager textureManager;
     private final MinefieldPanel minefieldPanel;
 
-    public MinesweeperView(@NotNull GameController controller, int width, int height) {
+    public MinesweeperView(@NotNull Minesweeper minesweeper, int width, int height) {
         textureManager = TextureManager.create();
         preCacheTextures();
 
@@ -26,7 +27,8 @@ public final class MinesweeperView {
         frame.setPreferredSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        minefieldPanel = new MinefieldPanel(controller, textureManager);
+        var controller = new MinesweeperController(minesweeper);
+        minefieldPanel = new MinefieldPanel(minesweeper, controller, textureManager);
         frame.add(minefieldPanel);
         frame.pack();
 
