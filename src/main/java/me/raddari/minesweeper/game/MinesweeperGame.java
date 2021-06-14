@@ -38,7 +38,7 @@ public final class MinesweeperGame implements Minesweeper {
 
         for (var row = 0; row < rows; row++) {
             for (var col = 0; col < cols; col++) {
-                var tile = new Tile();
+                final var tile = new Tile();
                 minefield[row][col] = tile;
                 positionLookup.put(tile, row * fieldCols + col);
             }
@@ -74,15 +74,15 @@ public final class MinesweeperGame implements Minesweeper {
     }
 
     private void revealTile(Tile tile) {
-        var tilePos = positionLookup.get(tile);
-        var tileRow = tilePos / fieldCols;
-        var tileCol = tilePos % fieldCols;
+        final var tilePos = positionLookup.get(tile);
+        final var tileRow = tilePos / fieldCols;
+        final var tileCol = tilePos % fieldCols;
         revealTile(tileRow, tileCol);
     }
 
     @Override
     public boolean isRevealed(int row, int col) {
-        var tile = tileAt(row, col);
+        final var tile = tileAt(row, col);
         return isRevealed(tile);
     }
 
@@ -93,7 +93,7 @@ public final class MinesweeperGame implements Minesweeper {
 
     @Override
     public void flagTile(int row, int col) {
-        var tile = tileAt(row, col);
+        final var tile = tileAt(row, col);
         tile.flipFlag();
     }
 
@@ -102,7 +102,7 @@ public final class MinesweeperGame implements Minesweeper {
         if (hasBombs) {
             throw new IllegalStateException("Minefield already has bombs");
         }
-        var pointList = new LinkedList<Point>();
+        final var pointList = new LinkedList<Point>();
         for (var m = 0; m < fieldRows; m++) {
             for (var n = 0; n < fieldCols; n++) {
                 pointList.add(new Point(n, m));
@@ -110,10 +110,10 @@ public final class MinesweeperGame implements Minesweeper {
         }
         Collections.shuffle(pointList);
 
-        var origin = new Point(originCol, originRow);
+        final var origin = new Point(originCol, originRow);
         var remaining = maxBombs;
         while (remaining > 0 && !pointList.isEmpty()) {
-            var bombPoint = pointList.pop();
+            final var bombPoint = pointList.pop();
             // Anything with a squared distance > 2 is outside the 3x3 grid centered on this tile
             if (bombPoint.distanceSq(origin) > 2.0) {
                 tileAt(bombPoint.y, bombPoint.x).makeBomb();

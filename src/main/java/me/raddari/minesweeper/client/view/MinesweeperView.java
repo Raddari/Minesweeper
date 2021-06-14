@@ -22,11 +22,11 @@ public final class MinesweeperView {
     public MinesweeperView(@NotNull Minesweeper minesweeper, int width, int height) {
         textureManager = preCacheTextures(TextureManager.create());
 
-        var frame = new JFrame("Minesweeper");
+        final var frame = new JFrame("Minesweeper");
         frame.setPreferredSize(new Dimension(width, height));
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        var controller = new MinesweeperController(minesweeper);
+        final var controller = new MinesweeperController(minesweeper);
         minefieldPanel = new MinefieldPanel(minesweeper, controller, textureManager);
         frame.add(minefieldPanel);
         frame.pack();

@@ -33,15 +33,15 @@ public final class TextureManager implements ResourceManager<Image>  {
     }
 
     private void load(@NotNull String path) {
-        var imgDir = TEXTURES_DIR + path.replace('.', '/') + ".png";
+        final var imgDir = TEXTURES_DIR + path.replace('.', '/') + ".png";
         LOGGER.debug("Loading texture {}", imgDir);
-        var imgStream = getClass().getClassLoader().getResourceAsStream(imgDir);
+        final var imgStream = getClass().getClassLoader().getResourceAsStream(imgDir);
         if (imgStream == null) {
             throw new IllegalArgumentException("No such texture: " + imgDir);
         }
 
         try {
-            var img = ImageIO.read(imgStream);
+            final var img = ImageIO.read(imgStream);
             textureMap.put(path, img);
         } catch (IOException e) {
             LOGGER.error("Texture not found", e);

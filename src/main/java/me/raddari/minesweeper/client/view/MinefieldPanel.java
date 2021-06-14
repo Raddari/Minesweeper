@@ -52,8 +52,8 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
     public void mousePressed(MouseEvent e) {
         final var x = e.getX();
         final var y = e.getY();
-        var row = y / TILE_HEIGHT;
-        var col = x / TILE_WIDTH;
+        final var row = y / TILE_HEIGHT;
+        final var col = x / TILE_WIDTH;
         LOGGER.debug("TILE: (R{},C{}) RAW: ({},{})", row, col, x, y);
 
         if (!withinField(x, y)) {
@@ -83,7 +83,7 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        var g2d = (Graphics2D) g.create();
+        final var g2d = (Graphics2D) g.create();
         g2d.setColor(Color.DARK_GRAY);
         g2d.fillRect(0, 0, getWidth(), getHeight());
 
@@ -92,8 +92,8 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
                 final var w = TILE_WIDTH;
                 final var h = TILE_HEIGHT;
 
-                var tile = minesweeper.tileAt(m, n);
-                for (var texture : tileImagesFor(tile)) {
+                final var tile = minesweeper.tileAt(m, n);
+                for (final var texture : tileImagesFor(tile)) {
                     g2d.drawImage(texture, w * n, h * m, w, h, this);
                 }
 
@@ -104,7 +104,7 @@ public final class MinefieldPanel extends JPanel implements MouseListener {
     }
 
     private List<Image> tileImagesFor(Tile tile) {
-        var images = new ArrayList<Image>();
+        final var images = new ArrayList<Image>();
         if (!minesweeper.isRevealed(tile)) {
             images.add(textureManager.get("tile.unrevealed"));
             if (tile.isFlagged()) {
