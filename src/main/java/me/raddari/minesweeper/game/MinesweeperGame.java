@@ -9,6 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.Point;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public final class MinesweeperGame implements Minesweeper {
 
@@ -52,14 +53,23 @@ public final class MinesweeperGame implements Minesweeper {
 
     @Override
     public void revealTile(int row, int col) {
-        var tile = tileAt(row, col);
-        if (isRevealed(tile) || tile.isFlagged()) {
-            return;
-        }
-        revealedTiles.add(tile);
-
-        if (tile.getValue() == 0 && !tile.isBomb()) {
-            forEachNeighbour(row, col, this::revealTile);
+        final var tile = tileAt(row, col);
+        if (!tile.isFlagged()) {
+            if (isRevealed(tile)) {
+                final var neighbourFlags = neighboursOf(row, col).stream()
+                                                   .filter(Tile::isFlagged)
+                                                   .count();
+                
+                if (neighbourFlags >= tile.getValue()) {
+                    forEachNeighbour(row, col, this::revealTile, neighbour -> !isRevealed(neighbour));
+                }
+            } else {
+                revealedTiles.add(tile);
+    
+                if (tile.getValue() == 0 && !tile.isBomb()) {
+                    forEachNeighbour(row, col, this::revealTile);
+                }
+            }
         }
     }
 
@@ -116,19 +126,30 @@ public final class MinesweeperGame implements Minesweeper {
     }
 
     public void forEachNeighbour(int originRow, int originCol, @NotNull Consumer<Tile> action) {
-        var rowMin = Math.max(0, originRow - 1);
-        var rowMax = Math.min(fieldRows - 1, originRow + 1);
-        var colMin = Math.max(0, originCol - 1);
-        var colMax = Math.min(fieldCols - 1, originCol + 1);
-
+        forEachNeighbour(originRow, originCol, action, t -> true);
+    }
+    
+    private void forEachNeighbour(int originRow, int originCol, @NotNull Consumer<Tile> action, @NotNull Predicate<Tile> condition) {
+        neighboursOf(originRow, originCol).stream()
+                .filter(condition)
+                .forEach(action);
+    }
+    
+    private @NotNull Set<Tile> neighboursOf(int originRow, int originCol) {
+        final var rowMin = Math.max(0, originRow - 1);
+        final var rowMax = Math.min(fieldRows - 1, originRow + 1);
+        final var colMin = Math.max(0, originCol - 1);
+        final var colMax = Math.min(fieldCols - 1, originCol + 1);
+        
+        final var neighbours = new LinkedHashSet<Tile>(8);
         for (var row = rowMin; row <= rowMax; row++) {
             for (var col = colMin; col <= colMax; col++) {
                 if (!(row == originRow && col == originCol)) {
-                    var tile = tileAt(row, col);
-                    action.accept(tile);
+                    neighbours.add(tileAt(row, col));
                 }
             }
         }
+        return neighbours;
     }
 
     @Override
