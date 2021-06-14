@@ -20,8 +20,7 @@ public final class MinesweeperView {
     private final MinefieldPanel minefieldPanel;
 
     public MinesweeperView(@NotNull Minesweeper minesweeper, int width, int height) {
-        textureManager = TextureManager.create();
-        preCacheTextures();
+        textureManager = preCacheTextures(TextureManager.create());
 
         var frame = new JFrame("Minesweeper");
         frame.setPreferredSize(new Dimension(width, height));
@@ -35,14 +34,17 @@ public final class MinesweeperView {
         frame.setVisible(true);
     }
 
-    private void preCacheTextures() {
-        var textures = new ArrayList<String>();
+    private static TextureManager preCacheTextures(TextureManager manager) {
+        final var textures = new ArrayList<String>();
         Collections.addAll(textures,
                 "tile.bad_bomb", "tile.bad_flag", "tile.bomb", "tile.flag", "tile.revealed", "tile.unrevealed");
         for (var i = 1; i <= 8; i++) {
             textures.add("tile.n" + i);
         }
-        textureManager.loadAll(textures);
+        for (final var texPath : textures) {
+            manager.get(texPath);
+        }
+        return manager;
     }
 
 }
